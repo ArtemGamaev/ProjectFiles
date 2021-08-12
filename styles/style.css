@@ -1,0 +1,15 @@
+.container {
+    width: 700px;
+    margin: 0 auto;
+    background: chocolate;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.styles-for-button {
+    height: 50px;
+    width: 200px;
+    color: white;
+    background: rgba(11, 47, 210, 0.88);
+}
