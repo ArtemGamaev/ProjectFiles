@@ -29,6 +29,10 @@
         <br/>
         <button name="Кнопка5" class="js-ajax-button-5 styles-for-button"> Файлы  в единичном экземпляре</button>
         <span class="js-answer-ajax-button-5"></span>
+        <br/>
+        <br/>
+        <button name="Кнопка6" class="js-ajax-button-6 styles-for-button"> Очистка директорий</button>
+        <span class="js-answer-ajax-button-6"></span>
     </div>
 </body>
 <script src="./js/script.js"></script>

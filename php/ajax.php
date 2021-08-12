@@ -7,19 +7,19 @@ if ($_POST['creatеDirectory']) {
 } else if ($_POST['findSharedFiles']) {
     $meaning =$equelFiles->findSharedFiles() [1];
     echo var_dump ($meaning);
-} else if ($_POST['findUniqueFilesFirstFolder']){
+} else if ($_POST['findUniqueFilesFirstFolder']) {
     $eqlFiles = $equelFiles->findSharedFiles();
     $meaningOne = $eqlFiles[0];
     $meaningTwo = $eqlFiles[2];
     $uniqueFiles =  $equelFiles->findUniqueFilesFirstFolder($meaningTwo, $meaningOne);
     echo var_dump ($uniqueFiles);
-} else if ($_POST['findUniqueFilesSecondFolder']){
+} else if ($_POST['findUniqueFilesSecondFolder']) {
     $eqlFiles = $equelFiles->findSharedFiles();
     $meaningOne = $eqlFiles[1];
     $meaningTwo = $eqlFiles[3];
     $uniqueFiles =  $equelFiles->findUniqueFilesSecondFolder($meaningTwo, $meaningOne);
     echo var_dump ($uniqueFiles);    
-} else if ($_POST['createThirdDirectory']){
+} else if ($_POST['createThirdDirectory']) {
     $eqlFiles = $equelFiles->findSharedFiles();
     $meaningOne = $eqlFiles[0];
     $meaningTwo = $eqlFiles[1];
@@ -28,5 +28,6 @@ if ($_POST['creatеDirectory']) {
     $uniqueFilesOne =  $equelFiles->findUniqueFilesFirstFolder($meaningThree , $meaningOne);
     $uniqueFilesTwo =  $equelFiles->findUniqueFilesSecondFolder($meaningFour, $meaningTwo);
     $equelFiles->createThirdDirectory($meaningTwo, $uniqueFilesOne, $uniqueFilesTwo);
+} else if ($_POST['clearDirectory']) {
+    $equelFiles->clearDirectory();
 }
- // $_POST глобальный массив с данным передаваемыми из js файла

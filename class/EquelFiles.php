@@ -8,9 +8,13 @@ class EquelFiles
     {
         $home = $_SERVER['DOCUMENT_ROOT'] . "/";
         $directoryОne = $home . "papka/direktory1";
-        mkdir($directoryОne, 0777);
+        if (!is_dir($directoryОne)) {
+            mkdir($directoryОne, 0777); 
+        }
         $directoryTwo = $home . "papka/direktory2";
-        mkdir($directoryTwo, 0777);
+        if (!is_dir($directoryTwo)) {
+            mkdir($directoryTwo, 0777); 
+        }
         $arrayString = array("Привет" ,"Как" , "Дела" , "?" ,  "Все" , "хорошо" , "Погода" , "за" , "окном" , "дождливая" );
         $quantityFiles = 5000;
         $rand = rand(0, 500);
@@ -35,8 +39,10 @@ class EquelFiles
 
         return 'creatеDirectory';
     }
-
-    public function findSharedFiles()// Находит общие (одинаковые) файлы в двух папках (сравнивается хэш файлов)
+    /**
+     * Находит общие (одинаковые) файлы в двух папках (сравнивается хэш файлов)
+     */
+    public function findSharedFiles() 
     {
         $home = $_SERVER['DOCUMENT_ROOT'] . '/';
         $directoryОne = $home . "papka/direktory1/";
@@ -44,14 +50,14 @@ class EquelFiles
         $directoryОneIterator = new DirectoryIterator($directoryОne);
         $filesDirectoryОne = [];
         foreach ($directoryОneIterator as $fileInfo) { 
-            if (!$fileInfo->isDot()){
+            if (!$fileInfo->isDot()) {
                 $filesDirectoryОne[$fileInfo->getPathname()] = md5_file($fileInfo->getPathname());
             }
         }
         $filesDirectoryTwo = [];
         $directoryTwoIterator = new DirectoryIterator($directoryTwo);
         foreach ($directoryTwoIterator as $fileInfo) {
-            if (!$fileInfo->isDot()){
+            if (!$fileInfo->isDot()) {
                 $filesDirectoryTwo[$fileInfo->getPathname()] = md5_file($fileInfo->getPathname());
             }
         }
@@ -67,27 +73,63 @@ class EquelFiles
             array_keys($filesDirectoryTwo)
         ];
     }
-
-    public function findUniqueFilesFirstFolder($sharedFilesDirectoryОne, $filesDirectoryОne)//Находит уникальные файлы в 1 директори
+    /**
+     *Находит уникальные файлы в 1 директори 
+     */
+    public function findUniqueFilesFirstFolder($sharedFilesDirectoryОne, $filesDirectoryОne)
     {
         $uniqueFilesDirectoryОne = array_merge(array_diff($sharedFilesDirectoryОne, $filesDirectoryОne));
 
         return $uniqueFilesDirectoryОne; 
     }
-
-    public function findUniqueFilesSecondFolder($sharedFilesDirectoryTwo, $filesDirectoryTwo)//Находит уникальные файлы во 2 директори
+    /**
+     *Находит уникальные файлы во 2 директори 
+    */
+    public function findUniqueFilesSecondFolder($sharedFilesDirectoryTwo, $filesDirectoryTwo)
     {
         $uniqueFilesDirectoryTwo = array_merge(array_diff($sharedFilesDirectoryTwo, $filesDirectoryTwo)); 
 
         return $uniqueFilesDirectoryTwo;  
     }
+    /**
+     *Очищает директории  
+    */
+    public function clearDirectory()
+    {   
+        $home = $_SERVER['DOCUMENT_ROOT'] . "/";
+        $directoryTwo = $home . "papka/direktory2";
+        $directoryОne = $home . "papka/direktory1";
+        $directoryThree = $home . "papka/direktory3";
+        $this->clearDirectorys($directoryTwo);
+        $this->clearDirectorys($directoryОne);
+        $this->clearDirectorys($directoryThree);
+        return 'clearDirectory';  
+    }
 
-    public function createThirdDirectory($sharedFilesDirectoryОne, $uniqueFilesDirectoryОne, $uniqueFilesDirectoryTwo )
-    //Создает 3 директорию,  в которую  помещаются уникальные файлы, а так же общие в единичном экземпляре
+    /**
+     *Очищает директорию 
+    */
+    public function clearDirectorys($directory)
     {
+        $directoryОneIterator = new DirectoryIterator($directory);
+        foreach ($directoryОneIterator as $fileInfo) { 
+            if (!$fileInfo->isDot()) {
+                unlink($fileInfo->getPathname());
+            }
+        }
+        rmdir($directory);
+        return 'clearDirectorys'; 
+    }
+    /**
+     *Создает 3 директорию,  в которую  помещаются уникальные файлы, а так же общие в единичном экземпляре
+    */
+    public function createThirdDirectory($sharedFilesDirectoryОne, $uniqueFilesDirectoryОne, $uniqueFilesDirectoryTwo)
+    {  
         $home = $_SERVER['DOCUMENT_ROOT'] . "/";
         $directoryThree = $home . "papka/direktory3/";
-        mkdir($directoryThree, 0777);
+        if (!is_dir($directoryThree)) {
+            mkdir($directoryThree, 0777); 
+        }
         foreach ($uniqueFilesDirectoryОne as $nameFile){
             copy($nameFile, $directoryThree . strrchr($nameFile,"\\"));   
         }
